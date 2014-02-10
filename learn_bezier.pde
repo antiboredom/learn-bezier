@@ -5,10 +5,10 @@ boolean dragging = false;
 void setup() {
   size(600, 600);
   colorMode(HSB);
-  vs.add(new Bez(10, 10, 50, 20, 10, 30));
-  vs.add(new Bez(40, 40, 50, 50, 10, 80));
-  vs.add(new Bez(70, 70, 80, 80, 180, 180));
-  vs.add(new Bez(90, 90, 100, 100, 20, 180));
+  vs.add(new Bez(149, 13, 207, 13, 188, 57));
+  vs.add(new Bez(12, 128, 27, 91, 50, 160));
+  vs.add(new Bez(150, 390, 160, 320, 220, 380));
+  vs.add(new Bez(360, 130, 400, 220, 400, 140));
 }
 
 
@@ -21,6 +21,8 @@ void draw() {
     vs.get(i).display();
   }
   endShape();
+  
+  text("drag control (c) and anchor (a) points - space to print out bezierVertex code", 10, height - 20);
 }
 
 
@@ -43,6 +45,10 @@ class Bez {
       points[i].display();
     }
   }
+
+  String print() {
+    return "bezierVertex(" + points[0].loc.x + "," + points[0].loc.y + "," + points[1].loc.x + "," + points[1].loc.y + "," + points[2].loc.x + "," + points[2].loc.y + ");";
+  }
 }
 
 class Dragg {
@@ -64,18 +70,17 @@ class Dragg {
     fill(100);
     text(name, loc.x, loc.y + 12);
     noFill();
-    
+
     if (!dragging && mousePressed && dist(loc.x, loc.y, mouseX, mouseY) < r) {
       selected = this;
     }
-    
+
     if (selected == this) {
-           textSize(10);
+      textSize(10);
       fill(100);
       text("    (" + loc.x + ", " + loc.y + ")", loc.x, loc.y + 12);
       noFill();
-      println("x: " + loc.x + ", y: " + loc.y); 
-      
+      println("x: " + loc.x + ", y: " + loc.y);
     }
   }
 }
@@ -87,7 +92,17 @@ void mouseReleased() {
 
 void mouseDragged() {
   dragging = true;
-  selected.loc.x = mouseX;
-  selected.loc.y = mouseY;
+  if (selected != null) {
+    selected.loc.x = mouseX;
+    selected.loc.y = mouseY;
+  }
+}
+
+void keyPressed() {
+  if (keyCode == 32) {
+    for (int i = 0; i < vs.size(); i++) {
+      println(vs.get(i).print());
+    }
+  }
 }
 

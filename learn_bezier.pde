@@ -5,6 +5,8 @@ boolean dragging = false;
 void setup() {
   size(600, 600);
   colorMode(HSB);
+  
+  // this works just like bezierVertex()
   vs.add(new Bez(149, 13, 207, 13, 188, 57));
   vs.add(new Bez(12, 128, 27, 91, 50, 160));
   vs.add(new Bez(150, 390, 160, 320, 220, 380));
